@@ -47,7 +47,7 @@ public class CalculatorView extends JFrame {
 
         //default calculatrice standard
         createAndShowGUI(BIN_VIEW);
-        currentMode = BSC_VIEW;
+        currentMode = BIN_VIEW;
 		/*this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("calculatrice");
         this.setResizable(false);

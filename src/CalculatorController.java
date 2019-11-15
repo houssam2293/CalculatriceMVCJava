@@ -20,7 +20,6 @@ public class CalculatorController {
 
     private CalculatorView theView;
     private CalculatorModel theModel;
-    private BinaryCalculator binary;
 
     private void b0_isClicked() {
         theView.autoAddOrRemove("number");
@@ -211,7 +210,6 @@ public class CalculatorController {
                 ArrayList<String> values = new ArrayList<>();
                 ArrayList<String> operat = new ArrayList<>();
 
-                //todo:make the implementation of binary operation
                 String str = theView.textField.getText();
                 String tmp = "";
                 for (int i = 0; i <= str.length(); i++) {
@@ -230,6 +228,41 @@ public class CalculatorController {
 
                     }
                     tmp += String.valueOf(str.charAt(i));
+                }
+
+                String result = values.get(0);
+                values.remove(0);
+                int i = 0;
+                for (String s : values) {
+                    System.out.println("s= " + s);
+                    String op = "";
+                    switch (operat.get(i)) {
+                        case "+":
+                            op = "add";
+                            break;
+                        case "-":
+                            op = "subtract";
+                            break;
+                        case "×":
+                            op = "multiply";
+                            break;
+                        case "÷":
+                            op = "divide";
+                            break;
+                    }
+
+
+                    System.out.println("resault before= " + result);
+                    result = BinaryCalculator.calculate(result, s, op);
+                    System.out.println("resault after= " + result);
+                    i++;
+                    if (values.size() == i ) {
+                        if (result == "-1") {
+                            theView.textField.setText("Error");
+                        } else {
+                            theView.textField.setText(result);
+                        }
+                    }
                 }
             } else {
                 try {
