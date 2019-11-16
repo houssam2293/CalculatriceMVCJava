@@ -6,10 +6,7 @@ public class BinaryCalculator {
         Integer vn1, vn2;
         vn1 = BinToDec(n1);
         vn2 = BinToDec(n2);
-        System.out.println("n1= " + n1);
-        System.out.println("n2= " + n2);
-        System.out.println("vn1= " + vn1);
-        System.out.println("vn2= " + vn2);
+
         if (o == "add") return DecToBin(vn1 + vn2);
         if (o == "subtract") return ((vn1 < vn2) ? "-" : "") + DecToBin(abs(vn1 - vn2));
         if (o == "multiply") return DecToBin(vn1 * vn2);
@@ -37,5 +34,13 @@ public class BinaryCalculator {
             decVal /= 2;
         }
         return (answer == "") ? "0" : answer;
+    }
+
+    public static String getBin(String data) {
+        return DecToBin(BinToDec(data));
+    }
+
+    public static String getDec(String data) {
+        return String.valueOf(BinToDec(data));
     }
 }

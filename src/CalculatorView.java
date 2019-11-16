@@ -30,6 +30,7 @@ public class CalculatorView extends JFrame {
     JTextField textField;
     int currentMode;
     DecimalFormat format = new DecimalFormat("0.###############");
+    private String data;
 
     JButton b1, b2, b3, b4, b5, b6, b7, b8, b9, b0, comma, plus, minus,
             divide, multiple, cos, sin, tan, sqrt, clear, back, equal,
@@ -39,15 +40,20 @@ public class CalculatorView extends JFrame {
     Font font2 = new Font("Arial", Font.BOLD, 9);
     Font font3 = new Font("Arial", Font.BOLD, 12);
 
-    CalculatorView(int type) {
+    CalculatorView(int type,String data) {
+
+        this.data = data;
         createAndShowGUI(type);
+        currentMode = type;
     }
 
     CalculatorView() {
 
         //default calculatrice standard
-        createAndShowGUI(BIN_VIEW);
-        currentMode = BIN_VIEW;
+        createAndShowGUI(BSC_VIEW);
+        currentMode = BSC_VIEW;
+
+
 		/*this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("calculatrice");
         this.setResizable(false);
@@ -59,9 +65,12 @@ public class CalculatorView extends JFrame {
 
     }
 
+
+
     private void createAndShowGUI(int type) {
 
         currentMode = type;
+        this.repaint();
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -76,12 +85,12 @@ public class CalculatorView extends JFrame {
         menuBar = new JMenuBar();
         file = new JMenu(" file ");
         binaire = new JMenuItem("Calculatrice binaire");
-        basic = new JMenuItem("Calculatrice basic");
+        basic = new JMenuItem("Calculatrice standard");
         scientifique = new JMenuItem("Calculatrice scientifique");
 
         menuBar.add(file);
-        file.add(binaire);
         file.add(basic);
+        file.add(binaire);
         file.add(scientifique);
 
 
@@ -114,7 +123,7 @@ public class CalculatorView extends JFrame {
         equal = new JButton("=");
         clear = new JButton("C");
         back = new JButton("\u2190");
-        textField = new JTextField("0");
+        textField = new JTextField(data);
 
 
         if (type == SCI_VIEW) {
@@ -371,6 +380,8 @@ public class CalculatorView extends JFrame {
         ImageIcon imgicon = new ImageIcon(
                 new ImageIcon("IconCalculatrice.png").getImage().getScaledInstance(15, 15, Image.SCALE_DEFAULT));
         this.setIconImage(imgicon.getImage());
+        this.validate();
+        this.repaint();
     }
 
 
@@ -403,6 +414,9 @@ public class CalculatorView extends JFrame {
         equal.addActionListener(listenForChange);
         clear.addActionListener(listenForChange);
         back.addActionListener(listenForChange);
+        basic.addActionListener(listenForChange);
+        binaire.addActionListener(listenForChange);
+        scientifique.addActionListener(listenForChange);
 
         addKeyListener((KeyListener) listenForChange);
         setFocusable(true);
@@ -508,6 +522,8 @@ public class CalculatorView extends JFrame {
             }
         }
     }
+
+
 
 
     void displayErrorMessage(String errorMessage) {

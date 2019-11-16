@@ -21,6 +21,20 @@ public class CalculatorController {
     private CalculatorView theView;
     private CalculatorModel theModel;
 
+    CalculatorController(CalculatorView theView, CalculatorModel theModel) {
+        this.theView = theView;
+        this.theModel = theModel;
+
+        this.theView.addListener(new CalculateListener());
+    }
+
+
+    public void switchUI(int type,String data) {
+        this.theView.dispose();
+        this.theView = new CalculatorView(type,data);
+        new CalculatorController(theView, theModel);
+    }
+
     private void b0_isClicked() {
         theView.autoAddOrRemove("number");
         theView.textField.setText(theView.textField.getText() + "0");
@@ -234,7 +248,6 @@ public class CalculatorController {
                 values.remove(0);
                 int i = 0;
                 for (String s : values) {
-                    System.out.println("s= " + s);
                     String op = "";
                     switch (operat.get(i)) {
                         case "+":
@@ -252,11 +265,9 @@ public class CalculatorController {
                     }
 
 
-                    System.out.println("resault before= " + result);
                     result = BinaryCalculator.calculate(result, s, op);
-                    System.out.println("resault after= " + result);
                     i++;
-                    if (values.size() == i ) {
+                    if (values.size() == i) {
                         if (result == "-1") {
                             theView.textField.setText("Error");
                         } else {
@@ -306,12 +317,7 @@ public class CalculatorController {
         theView.textField.setText("0");
     }
 
-    CalculatorController(CalculatorView theView, CalculatorModel theModel) {
-        this.theView = theView;
-        this.theModel = theModel;
 
-        this.theView.addListener(new CalculateListener());
-    }
 
     class CalculateListener implements ActionListener, KeyListener {
 
@@ -400,20 +406,187 @@ public class CalculatorController {
 
             else if (e.getSource() == theView.clear)
                 clear_isClicked();
+            else if (e.getSource() == theView.basic) {
+                String data = theView.textField.getText();
+                if (theView.currentMode == 2) {
+                    data=BinaryCalculator.getDec(data);
+                }
+                switchUI(1,data);
+            } else if (e.getSource() == theView.binaire) {
+                String data = "0";
+                if (theView.currentMode==1)
+                    data = BinaryCalculator.getBin(theView.textField.getText());
+                switchUI(2,data);
+            } else if (e.getSource() == theView.scientifique) {
+                String data = "0";
+                if (theView.currentMode==1)
+                    data = theView.textField.getText();
+                switchUI(3,data);
+            }
         }
 
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
 
         @Override
         public void keyPressed(KeyEvent e) {
+            if (theView.currentMode == 2) {
+                switch (e.getKeyChar()) {
+                    case '0':
+                    case '\u0660':
+                        b0_isClicked();
+                        break;
 
+                    case '1':
+                    case '\u0661':
+                        b1_isClicked();
+                        break;
+
+
+                    case '+':
+                        plus_isClicked();
+                        break;
+
+                    case '-':
+                        minus_isClicked();
+                        break;
+
+                    case '*':
+                    case '×':
+                        multiple_isClicked();
+                        break;
+
+                    case '/':
+                    case '÷':
+                        divide_isClicked();
+                        break;
+
+
+                    case '=':
+                    case '\n':
+                        equal_isClicked();
+                        break;
+
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+                    back_isClicked();
+
+                else if (e.getKeyCode() == KeyEvent.VK_DELETE)
+                    clear_isClicked();
+
+            } else {
+                switch (e.getKeyChar()) {
+                    case '0':
+                    case '\u0660':
+                        b0_isClicked();
+                        break;
+
+                    case '1':
+                    case '\u0661':
+                        b1_isClicked();
+                        break;
+
+                    case '2':
+                    case '\u0662':
+                        b2_isClicked();
+                        break;
+
+                    case '3':
+                    case '\u0663':
+                        b3_isClicked();
+                        break;
+
+                    case '4':
+                    case '\u0664':
+                        b4_isClicked();
+                        break;
+
+                    case '5':
+                    case '\u0665':
+                        b5_isClicked();
+                        break;
+
+                    case '6':
+                    case '\u0666':
+                        b6_isClicked();
+                        break;
+
+                    case '7':
+                    case '\u0667':
+                        b7_isClicked();
+                        break;
+
+                    case '8':
+                    case '\u0668':
+                        b8_isClicked();
+                        break;
+
+                    case '9':
+                    case '\u0669':
+                        b9_isClicked();
+                        break;
+
+
+                    case '+':
+                        plus_isClicked();
+                        break;
+
+                    case '-':
+                        minus_isClicked();
+                        break;
+
+                    case '*':
+                    case '×':
+                        multiple_isClicked();
+                        break;
+
+                    case '/':
+                    case '÷':
+                        divide_isClicked();
+                        break;
+
+                    case '!':
+                        factoriel_isClicked();
+                        break;
+
+                    case '^':
+                        power_isClicked();
+                        break;
+
+                    case ')':
+                        parentesesRight_isClicked();
+                        break;
+
+                    case '(':
+                        parentesesLeft_isClicked();
+                        break;
+
+                    case '.':
+                        comma_isClicked();
+                        break;
+
+                    case '=':
+                    case '\n':
+                        equal_isClicked();
+                        break;
+
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+                    back_isClicked();
+
+                else if (e.getKeyCode() == KeyEvent.VK_DELETE)
+                    clear_isClicked();
+
+            }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
 
         }
     }

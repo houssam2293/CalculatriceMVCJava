@@ -9,11 +9,11 @@
  * @author AsmaPC
  */
 public class Mvc {
-    
+
     public static void main(String[] args) {
     	
-    	CalculatorView theView = new CalculatorView();
-        
+    	CalculatorView theView = new CalculatorView(1,"0");
+
     	CalculatorModel theModel = new CalculatorModel();
         
         CalculatorController theController = new CalculatorController(theView,theModel);
@@ -21,4 +21,6 @@ public class Mvc {
         theView.setVisible(true);
         
     }
+
+
 }
